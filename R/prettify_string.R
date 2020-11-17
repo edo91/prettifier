@@ -47,31 +47,17 @@ prettify_string <- function(x, ...){
 
   # custom replace
   if(!missing(...)){
-    args <- list(...)
-    for(a in names(args)) x <- str_replace_all(string = x, pattern = a, replacement = args[[a]])
+    x <- str_replace_all(string = x, c(...))
   }
 
-  # remove punctuation
-  x <- str_replace_all(x, "[[:punct:]]", "_")
-
-  # remove spaces and tabs
-  x <- str_replace_all(x, "[[:space:]]", "_")
-
-  # remove remove special characters
-  special_char <- c("$", "€", "+", "^", "~", "<", ">", "=", "|")
-  s_special_char <- paste0("\\", special_char, collapse = "|")
-  x <- str_replace_all(x, s_special_char, "_")
-
-  # remove extra _
-  x <- str_replace_all(x, "_+", "_")
+  # keep only alphanumeric
+  x <- str_replace_all(x, "[^[:alnum:]]+", "_")
 
   # remove accents and weird letters
   x <- iconv(x, from = 'UTF-8', to = 'ASCII//TRANSLIT')
 
-  # everything to lower
-  x <- tolower(x)
+  tolower(x)
 
-  x
 }
 
 #' @title Wrap of prettify_string for names
@@ -103,12 +89,7 @@ prettify_string <- function(x, ...){
 #'
 prettify_names <- function(x, ...){
 
-  n <- names(x)
-
-  n <- prettify_string(n, ...)
-
-  names(x) <- n
-
+  names(x) <- prettify_string(names(x), ...)
   x
 
 }
@@ -150,9 +131,7 @@ prettify_names <- function(x, ...){
 prettify_title <- function(x, ..., replace = " "){
 
   x <- prettify_string(x, ...)
-
   x <- str_to_title(str_replace_all(x, "_", replace))
-
   x
 
 }
@@ -188,12 +167,7 @@ prettify_title <- function(x, ..., replace = " "){
 #'
 prettify_names_title <- function(x, ..., replace = " "){
 
-  n <- names(x)
-
-  n <- prettify_title(n, ..., replace = replace)
-
-  names(x) <- n
-
+  names(x) <- prettify_title(names(x), ..., replace = replace)
   x
 
 }

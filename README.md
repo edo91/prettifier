@@ -1,9 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# prettifier
+# `prettifier`
 
-The goal of prettifier is to clean up strings.
+The goal of `prettifier` is to clean up strings.
 
 ## Installation
 
@@ -21,7 +21,6 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(prettifier)
-## basic example code
 ```
 
 ``` r
